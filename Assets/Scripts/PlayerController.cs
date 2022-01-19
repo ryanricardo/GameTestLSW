@@ -90,10 +90,15 @@ public class PlayerController : MonoBehaviour
     void PushItemController()
     {
         if(mouse0 &&
-        handRightOcupped)
+        handRightOcupped &&
+        rb2.velocity.x == 0)
         {
+            animator.SetBool("PushItem", true);
             itemProximity.GetComponent<Item>().modeItem = Item.ModeItem.Push;
             handRightOcupped = false;
+        }else 
+        {
+            animator.SetBool("PushItem", false);
         }
     }
 
