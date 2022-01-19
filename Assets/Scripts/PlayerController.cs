@@ -14,6 +14,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField]        private         CircleCollider2D    checkItens;
     [SerializeField]        private         GameObject          itemProximity;
     [SerializeField]        private         GameObject          weaponPickup;
+    [SerializeField]        private         Transform           exitBulletPistol;
+    [SerializeField]        private         GameObject          bullet;
     [HideInInspector]       private         Rigidbody2D         rb2;
     [HideInInspector]       private         Animator            animator;
     [HideInInspector]       public          CategoryItens       categoryItens; 
@@ -79,9 +81,15 @@ public class PlayerController : MonoBehaviour
 
             case CategoryItens.Pistol:
                 animator.SetInteger("CategoryItem", 1);
+                if(mouse0)
+                {
+                    Instantiate(bullet, exitBulletPistol.transform.position, Quaternion.identity);
+                }
             break;
         }
     }
+
+
 
     void PickupItemController()
     {
