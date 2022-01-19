@@ -68,8 +68,12 @@ public class PlayerController : MonoBehaviour
        keyDownE &&
        !handRightOcupped)
        {
+           animator.SetBool("PickupItem", true);
            itemProximity.GetComponent<Item>().modeItem = Item.ModeItem.Equipped;
            handRightOcupped = true;
+       }else 
+       {
+           animator.SetBool("PickupItem", false);
        }
     }
 
