@@ -13,17 +13,19 @@ public class Item : MonoBehaviour
     }
 
     [Header("Components")]
-    [SerializeField]        public          ModeItem        modeItem;
-    [SerializeField]        private         Transform[]     handsPlayer;
-    [HideInInspector]       private         Rigidbody2D     rb2;
+    [SerializeField]        public          ModeItem            modeItem;
+    [SerializeField]        private         Transform[]         handsPlayer;
+    [HideInInspector]       private         Rigidbody2D         rb2;
+    [HideInInspector]       private         PlayerController    playerController;
 
     [Header("Atributtes Object")]
-    [SerializeField]        private         float           forcePush;
-    [HideInInspector]       private         bool            lauchPush;
+    [SerializeField]        private         float               forcePush;
+    [HideInInspector]       private         bool                lauchPush;
 
     void Start()
     {
         rb2 = GetComponent<Rigidbody2D>();
+        playerController = FindObjectOfType<PlayerController>();
     }
 
     void Update()
@@ -36,23 +38,36 @@ public class Item : MonoBehaviour
         switch(modeItem)
         {
             case ModeItem.Dropped:
-
+                GetComponent<BoxCollider2D>().isTrigger = true;
             break;
 
             case ModeItem.Equipped:
+                GetComponent<BoxCollider2D>().isTrigger = true;
                 transform.position = new Vector2(handsPlayer[1].transform.position.x, handsPlayer[1].transform.position.y);
                 lauchPush = true;
             break;
 
             case ModeItem.Push:
-
                 if(lauchPush)
                 {
-                    rb2.AddForce(Vector2.right * forcePush, ForceMode2D.Impulse);
+                    GetComponent<BoxCollider2D>().isTrigger = false;
+                    rb2.AddForce(playerController.transform.right * forcePush, ForceMode2D.Impulse);
+                    StartCoroutine(StopVelocityItem());
                     lauchPush = false;
                 }
             break;
         }
+    }
+
+    IEnumerator StopVelocityItem()
+    {
+        do
+        {
+            yield return new WaitForSeconds(0.5f);
+            rb2.velocity = Vector2.zero;
+            modeItem = ModeItem.Dropped;
+        }while(rb2.velocity.x != 0);
+
     }
 
 
