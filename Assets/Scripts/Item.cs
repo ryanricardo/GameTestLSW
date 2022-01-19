@@ -12,8 +12,15 @@ public class Item : MonoBehaviour
         Push,
     }
 
+    public enum TypeItem
+    {
+        Pusher,
+        Weapon,
+    }
+
     [Header("Components")]
     [SerializeField]        public          ModeItem            modeItem;
+    [SerializeField]        public          TypeItem            typeItem;
     [SerializeField]        private         Transform[]         handsPlayer;
     [HideInInspector]       private         Rigidbody2D         rb2;
     [HideInInspector]       private         PlayerController    playerController;
@@ -35,28 +42,56 @@ public class Item : MonoBehaviour
 
     void ManagerModeItem()
     {
-        switch(modeItem)
+
+        switch(typeItem)
         {
-            case ModeItem.Dropped:
-                GetComponent<BoxCollider2D>().isTrigger = true;
-            break;
+            case TypeItem.Pusher:
 
-            case ModeItem.Equipped:
-                GetComponent<BoxCollider2D>().isTrigger = true;
-                transform.position = new Vector2(handsPlayer[1].transform.position.x, handsPlayer[1].transform.position.y);
-                lauchPush = true;
-            break;
-
-            case ModeItem.Push:
-                if(lauchPush)
+                switch(modeItem)
                 {
-                    GetComponent<BoxCollider2D>().isTrigger = false;
-                    rb2.AddForce(playerController.transform.right * forcePush, ForceMode2D.Impulse);
-                    StartCoroutine(StopVelocityItem());
-                    lauchPush = false;
+                    case ModeItem.Dropped:
+                        GetComponent<BoxCollider2D>().isTrigger = true;
+                    break;
+
+                    case ModeItem.Equipped:
+                        GetComponent<BoxCollider2D>().isTrigger = true;
+                        transform.position = new Vector2(handsPlayer[1].transform.position.x, handsPlayer[1].transform.position.y);
+                        lauchPush = true;
+                    break;
+
+                    case ModeItem.Push:
+                        if(lauchPush)
+                        {
+                            GetComponent<BoxCollider2D>().isTrigger = false;
+                            rb2.AddForce(playerController.transform.right * forcePush, ForceMode2D.Impulse);
+                            StartCoroutine(StopVelocityItem());
+                            lauchPush = false;
+                        }
+                    break;
+                }
+
+            break;
+
+            case TypeItem.Weapon:
+                switch(modeItem)
+                {
+                    case ModeItem.Dropped:
+                        GetComponent<BoxCollider2D>().isTrigger = true;
+                    break;
+
+                    case ModeItem.Equipped:
+                        Destroy(gameObject, 0);
+                        playerController.categoryItens = PlayerController.CategoryItens.Pistol;
+                    break;
                 }
             break;
         }
+
+    }
+
+    public void EquipItem()
+    {
+        modeItem = ModeItem.Equipped;
     }
 
     IEnumerator StopVelocityItem()

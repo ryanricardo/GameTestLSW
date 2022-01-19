@@ -4,12 +4,19 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
+    public enum CategoryItens
+    {
+        Rock,
+        Pistol,
+    }
 
     [Header("Components")]
     [SerializeField]        private         CircleCollider2D    checkItens;
     [SerializeField]        private         GameObject          itemProximity;
+    [SerializeField]        private         GameObject          weaponPickup;
     [HideInInspector]       private         Rigidbody2D         rb2;
     [HideInInspector]       private         Animator            animator;
+    [HideInInspector]       public          CategoryItens       categoryItens; 
     
     
 
@@ -18,6 +25,7 @@ public class PlayerController : MonoBehaviour
 
     [Header("Atributtes Slots")]
     [SerializeField]        private         bool                handRightOcupped;
+    [HideInInspector]       private         float               distanceItem;
 
     [Header("Inputs")]
     [HideInInspector]       private         bool                keyDownE;
@@ -36,6 +44,7 @@ public class PlayerController : MonoBehaviour
         PickupItemController();
         DropItemController();
         PushItemController();
+        ControllerItens();
         Inputs();
     }
 
@@ -60,16 +69,33 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    void ControllerItens()
+    {
+        switch(categoryItens)
+        {
+            case CategoryItens.Rock:
+                animator.SetInteger("CategoryItem", 0);
+            break;
+
+            case CategoryItens.Pistol:
+                animator.SetInteger("CategoryItem", 1);
+            break;
+        }
+    }
+
     void PickupItemController()
     {
-       float distanceItem = Vector2.Distance(transform.position, itemProximity.transform.position);
+        if(itemProximity != null)
+        {
+            distanceItem = Vector2.Distance(transform.position, itemProximity.transform.position);
+        }
 
        if(distanceItem <= 2 && 
        keyDownE &&
        !handRightOcupped)
        {
            animator.SetBool("PickupItem", true);
-           itemProximity.GetComponent<Item>().modeItem = Item.ModeItem.Equipped;
+           itemProximity.GetComponent<Item>().EquipItem();
            handRightOcupped = true;
        }else 
        {
@@ -82,14 +108,26 @@ public class PlayerController : MonoBehaviour
        if(keyDownG &&
        handRightOcupped)
        {
-           itemProximity.GetComponent<Item>().modeItem = Item.ModeItem.Dropped;
-           handRightOcupped = false;
+           switch(categoryItens)
+           {
+               case CategoryItens.Rock:
+                    itemProximity.GetComponent<Item>().modeItem = Item.ModeItem.Dropped;
+                    handRightOcupped = false;
+               break;
+
+               case CategoryItens.Pistol:
+                    Instantiate(weaponPickup, transform.position, Quaternion.identity);
+                    categoryItens = CategoryItens.Rock;
+                    handRightOcupped = false;
+               break;
+           }
+
        }
     }
 
     void PushItemController()
     {
-        if(mouse0 &&
+        if(categoryItens == CategoryItens.Rock && mouse0 &&
         handRightOcupped &&
         rb2.velocity.x == 0)
         {
