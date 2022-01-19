@@ -6,11 +6,23 @@ public class PlayerController : MonoBehaviour
 {
 
     [Header("Components")]
+    [SerializeField]        private         CircleCollider2D    checkItens;
+    [SerializeField]        private         GameObject          itemProximity;
     [HideInInspector]       private         Rigidbody2D         rb2;
     [HideInInspector]       private         Animator            animator;
+    
+    
 
     [Header("Atributtes Moviment")]
     [SerializeField]        private         float               speedMoviment;
+
+    [Header("Atributtes Slots")]
+    [SerializeField]        private         bool                handRightOcupped;
+
+    [Header("Inputs")]
+    [HideInInspector]       private         bool                keyDownE;
+    [HideInInspector]       private         bool                keyDownG;
+    [HideInInspector]       private         bool                mouse0;
 
     void Start()
     {
@@ -21,6 +33,10 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
         MovimentController();
+        PickupItemController();
+        DropItemController();
+        PushItemController();
+        Inputs();
     }
 
     void MovimentController()
@@ -41,6 +57,55 @@ public class PlayerController : MonoBehaviour
         }else 
         {
             animator.SetBool("Walk", false);
+        }
+    }
+
+    void PickupItemController()
+    {
+       float distanceItem = Vector2.Distance(transform.position, itemProximity.transform.position);
+
+       if(distanceItem <= 2 && 
+       keyDownE &&
+       !handRightOcupped)
+       {
+           itemProximity.GetComponent<Item>().modeItem = Item.ModeItem.Equipped;
+           handRightOcupped = true;
+       }
+    }
+
+    void DropItemController()
+    {
+       if(keyDownG &&
+       handRightOcupped)
+       {
+           itemProximity.GetComponent<Item>().modeItem = Item.ModeItem.Dropped;
+           handRightOcupped = false;
+       }
+    }
+
+    void PushItemController()
+    {
+        if(mouse0 &&
+        handRightOcupped)
+        {
+            itemProximity.GetComponent<Item>().modeItem = Item.ModeItem.Push;
+            handRightOcupped = false;
+        }
+    }
+
+    void Inputs()
+    {
+        keyDownE = Input.GetKeyDown(KeyCode.E) ? keyDownE = true : keyDownE = false;
+        keyDownG = Input.GetKeyDown(KeyCode.G) ? keyDownG = true : keyDownG = false;
+        mouse0   = Input.GetKeyDown(KeyCode.Mouse0) ? mouse0 = true : mouse0 = false;
+    }
+
+    void OnTriggerEnter2D(Collider2D other)
+    {
+        if(checkItens == other.gameObject.CompareTag("Item") &&
+        !handRightOcupped)
+        {
+            itemProximity = other.gameObject;
         }
     }
 }
