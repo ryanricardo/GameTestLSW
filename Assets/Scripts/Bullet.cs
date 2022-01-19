@@ -15,13 +15,19 @@ public class Bullet : MonoBehaviour
     {
         playerController = FindObjectOfType<PlayerController>();
         rb2 = GetComponent<Rigidbody2D>();
-        
         Destroy(gameObject, 4);
+        Invoke("DesactiveTrigger", 0.1f);
     }
 
     void Update()
     {
         rb2.AddForce(playerController.transform.right * 10, ForceMode2D.Impulse);
+
         
+    }
+
+    void DesactiveTrigger()
+    {
+        GetComponent<BoxCollider2D>().isTrigger = false;
     }
 }

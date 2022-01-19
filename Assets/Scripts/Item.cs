@@ -28,11 +28,18 @@ public class Item : MonoBehaviour
     [Header("Atributtes Object")]
     [SerializeField]        private         float               forcePush;
     [HideInInspector]       private         bool                lauchPush;
+    
 
     void Start()
     {
+
         rb2 = GetComponent<Rigidbody2D>();
         playerController = FindObjectOfType<PlayerController>();
+        
+        if(typeItem == TypeItem.Weapon)
+        {
+            playerController.ammmunationCurrent = Random.Range(0, 5);
+        }
     }
 
     void Update()
@@ -80,6 +87,7 @@ public class Item : MonoBehaviour
                     break;
 
                     case ModeItem.Equipped:
+                        playerController.ammmunationCurrent = Random.Range(1, 10);
                         Destroy(gameObject, 0);
                         playerController.categoryItens = PlayerController.CategoryItens.Pistol;
                     break;
