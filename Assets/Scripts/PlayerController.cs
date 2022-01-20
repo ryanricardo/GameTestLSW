@@ -19,6 +19,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField]        public          float               ammmunationCurrent;
     [SerializeField]        private         AudioSource         sourceEffects;
     [SerializeField]        private         AudioClip           clipShootPistol;
+    [SerializeField]        private         Sprite              spriteDead;
     [HideInInspector]       private         Rigidbody2D         rb2;
     [HideInInspector]       private         Animator            animator;
     [HideInInspector]       public          CategoryItens       categoryItens; 
@@ -31,6 +32,7 @@ public class PlayerController : MonoBehaviour
 
     [Header("Atributtes Health")]
     [SerializeField]        public          float               life;
+    [HideInInspector]       public          bool                death;
 
     [Header("Atributtes Slots")]
     [SerializeField]        private         bool                handRightOcupped;
@@ -50,16 +52,20 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
+        ControllerHealth();
+        if(death){return;}
         MovimentController();
         PickupItemController();
         DropItemController();
         PushItemController();
         ControllerItens();
         Inputs();
+        
     }
 
     void MovimentController()
     {
+
         float axisHorizontal = Input.GetAxis("Horizontal");
         float axisVertical = Input.GetAxis("Vertical");
 
@@ -103,6 +109,15 @@ public class PlayerController : MonoBehaviour
                     }
                 }
             break;
+        }
+    }
+
+    void ControllerHealth()
+    {
+        if(life <= 0 && !death)
+        {
+            animator.SetBool("Death", true);
+            death = true;
         }
     }
 

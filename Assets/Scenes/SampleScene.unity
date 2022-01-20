@@ -11492,6 +11492,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1141074946272309478, guid: 45787bea1be062b449a1880fd1c6a6fa, type: 3}
     - target: {fileID: 1293711376377285617, guid: 5d84e390626d23e4a97675a448c2e971, type: 3}
+      propertyPath: spriteDead
+      value: 
+      objectReference: {fileID: 21300000, guid: ff06f270c7093d7468651af2fb5cddac, type: 3}
+    - target: {fileID: 1293711376377285617, guid: 5d84e390626d23e4a97675a448c2e971, type: 3}
       propertyPath: weaponPickup
       value: 
       objectReference: {fileID: 5399002094584738027, guid: eab9e94d716015b42a3953ee056182c6, type: 3}

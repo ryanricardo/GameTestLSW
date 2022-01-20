@@ -33,7 +33,7 @@ public class Bullet : MonoBehaviour
                 break;
 
                 case TypePlayer.Bot:
-                    rb2.AddForce(transformExit.transform.right * 10, ForceMode2D.Impulse);
+                    rb2.AddForce(transformExit.transform.right * 20, ForceMode2D.Impulse);
                 break;
             }
         }
@@ -52,7 +52,7 @@ public class Bullet : MonoBehaviour
         if(other.gameObject.CompareTag("Player") && 
         typePlayer != TypePlayer.Player)
         {
-            other.gameObject.GetComponent<PlayerController>().life -= 10;
+            other.gameObject.GetComponent<PlayerController>().life -= 50;
             Destroy(gameObject, 0);
         }
 

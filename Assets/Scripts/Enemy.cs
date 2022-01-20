@@ -10,6 +10,7 @@ public class Enemy : MonoBehaviour
         Chasing,
         Shooting,
         Dead,
+        Nothing,
     }
 
     [Header("Components")]
@@ -42,6 +43,7 @@ public class Enemy : MonoBehaviour
     void Update()
     {
         ActionsController();
+        CheckLifePlayer();
         ControllerLife();
     }
 
@@ -92,6 +94,10 @@ public class Enemy : MonoBehaviour
                 GetComponent<SpriteRenderer>().sprite = spriteDead;
                 GetComponent<BoxCollider2D>().isTrigger = true;
             break;
+
+            case ActionsCurrent.Nothing:
+
+            break;
         }
     }
 
@@ -100,6 +106,14 @@ public class Enemy : MonoBehaviour
         if(life <= 0)
         {
             actionsCurrent = ActionsCurrent.Dead;
+        }
+    }
+
+    void CheckLifePlayer()
+    {
+        if(playerController.death)
+        {
+            actionsCurrent = ActionsCurrent.Nothing;
         }
     }
     
