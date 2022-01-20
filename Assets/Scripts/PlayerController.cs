@@ -17,14 +17,20 @@ public class PlayerController : MonoBehaviour
     [SerializeField]        private         Transform           exitBulletPistol;
     [SerializeField]        private         GameObject          bullet;
     [SerializeField]        public          float               ammmunationCurrent;
+    [SerializeField]        private         AudioSource         sourceEffects;
+    [SerializeField]        private         AudioClip           clipShootPistol;
     [HideInInspector]       private         Rigidbody2D         rb2;
     [HideInInspector]       private         Animator            animator;
     [HideInInspector]       public          CategoryItens       categoryItens; 
+    [HideInInspector]       public          Vector2             direction;
     
     
 
     [Header("Atributtes Moviment")]
     [SerializeField]        private         float               speedMoviment;
+
+    [Header("Atributtes Health")]
+    [SerializeField]        public          float               life;
 
     [Header("Atributtes Slots")]
     [SerializeField]        private         bool                handRightOcupped;
@@ -37,6 +43,7 @@ public class PlayerController : MonoBehaviour
 
     void Start()
     {
+        life = 100;
         animator = GetComponent<Animator>();
         rb2 = GetComponent<Rigidbody2D>();
     }
@@ -58,7 +65,7 @@ public class PlayerController : MonoBehaviour
 
         rb2.velocity = new Vector2(axisHorizontal, axisVertical) * speedMoviment;
 
-        Vector2 direction = Camera.main.ScreenToWorldPoint(Input.mousePosition) - transform.position;
+        direction = Camera.main.ScreenToWorldPoint(Input.mousePosition) - transform.position;
         float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
         Quaternion rotation = Quaternion.AngleAxis(angle, Vector3.forward);
         transform.rotation = Quaternion.Slerp(transform.rotation, rotation, speedMoviment * Time.deltaTime);
@@ -84,7 +91,10 @@ public class PlayerController : MonoBehaviour
                 animator.SetInteger("CategoryItem", 1);
                 if(mouse0 && ammmunationCurrent > 0)
                 {
+                    bullet.GetComponent<Bullet>().transformExit = exitBulletPistol;
+                    bullet.GetComponent<Bullet>().typePlayer = Bullet.TypePlayer.Player;
                     Instantiate(bullet, exitBulletPistol.transform.position, Quaternion.identity);
+                    sourceEffects.PlayOneShot(clipShootPistol);
                     ammmunationCurrent -= 1;
                     if(ammmunationCurrent == 0)
                     {

@@ -32,7 +32,6 @@ public class Item : MonoBehaviour
 
     void Start()
     {
-
         rb2 = GetComponent<Rigidbody2D>();
         playerController = FindObjectOfType<PlayerController>();
         
