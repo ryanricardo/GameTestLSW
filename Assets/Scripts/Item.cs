@@ -18,9 +18,16 @@ public class Item : MonoBehaviour
         Weapon,
     }
 
+    public enum TypeWeapon
+    {
+        Pistol,
+        Shotgun,
+    }
+
     [Header("Components")]
     [SerializeField]        public          ModeItem            modeItem;
     [SerializeField]        public          TypeItem            typeItem;
+    [SerializeField]        public          TypeWeapon          typeWeapon;
     [SerializeField]        private         Transform[]         handsPlayer;
     [HideInInspector]       private         Rigidbody2D         rb2;
     [HideInInspector]       private         PlayerController    playerController;
@@ -91,7 +98,17 @@ public class Item : MonoBehaviour
                         playerController.ammmunationCurrent = localAmmunation;
                         gameObject.SetActive(false);
                         playerController.gunEquipped = gameObject;
-                        playerController.categoryItens = PlayerController.CategoryItens.Pistol;
+
+                        switch(typeWeapon)
+                        {
+                            case TypeWeapon.Pistol:
+                                playerController.categoryItens = PlayerController.CategoryItens.Pistol;
+                            break;
+
+                            case TypeWeapon.Shotgun:
+                                playerController.categoryItens = PlayerController.CategoryItens.Shotgun;
+                            break;
+                        }
                     break;
                 }
             break;

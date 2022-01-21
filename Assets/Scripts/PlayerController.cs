@@ -8,6 +8,7 @@ public class PlayerController : MonoBehaviour
     {
         Rock,
         Pistol,
+        Shotgun,
     }
 
     [Header("Components")]
@@ -15,11 +16,12 @@ public class PlayerController : MonoBehaviour
     [SerializeField]        private         GameObject          itemProximity;
     [SerializeField]        private         GameObject          weaponPickup;
     [SerializeField]        private         Transform           exitBulletPistol;
+    [SerializeField]        private         Transform[]         exitBulletShotgun;
     [SerializeField]        private         GameObject          bullet;
     [SerializeField]        public          float               ammmunationCurrent;
     [SerializeField]        private         AudioSource         sourceEffects;
     [SerializeField]        private         AudioClip           clipShootPistol;
-    [SerializeField]        private         Sprite              spriteDead;
+    [SerializeField]        private         AudioClip           clipShootShotgun;
     [SerializeField]        public          GameObject          gunEquipped;
     [HideInInspector]       private         CanvasPlayer        canvasPlayer;
     [HideInInspector]       private         Rigidbody2D         rb2;
@@ -115,6 +117,27 @@ public class PlayerController : MonoBehaviour
                     }
                 }
             break;
+
+            case CategoryItens.Shotgun:
+                animator.SetInteger("CategoryItem", 2);
+                if(mouse0 && ammmunationCurrent > 0)
+                {
+                    bullet.GetComponent<Bullet>().transformExit = exitBulletShotgun[0];
+                    bullet.GetComponent<Bullet>().transformExit = exitBulletShotgun[1];
+                    bullet.GetComponent<Bullet>().typePlayer = Bullet.TypePlayer.Player;
+                    Instantiate(bullet, exitBulletShotgun[0].transform.position, Quaternion.identity);
+                    Instantiate(bullet, exitBulletShotgun[1].transform.position, Quaternion.identity);
+                    sourceEffects.PlayOneShot(clipShootShotgun);
+                    ammmunationCurrent -= 1;
+                    gunEquipped.GetComponent<Item>().localAmmunation -= 1;
+                    if(ammmunationCurrent == 0)
+                    {
+                        Destroy(gunEquipped, 0);
+                        handRightOcupped = false;
+                        categoryItens = CategoryItens.Rock;
+                    }
+                }
+            break;
         }
     }
 
@@ -166,6 +189,14 @@ public class PlayerController : MonoBehaviour
                break;
 
                case CategoryItens.Pistol:
+                    gunEquipped.GetComponent<Item>().modeItem = Item.ModeItem.Dropped;
+                    gunEquipped.SetActive(true);
+                    gunEquipped.transform.position = new Vector2(transform.position.x, transform.position.y);
+                    categoryItens = CategoryItens.Rock;
+                    handRightOcupped = false;
+               break;
+
+               case CategoryItens.Shotgun:
                     gunEquipped.GetComponent<Item>().modeItem = Item.ModeItem.Dropped;
                     gunEquipped.SetActive(true);
                     gunEquipped.transform.position = new Vector2(transform.position.x, transform.position.y);

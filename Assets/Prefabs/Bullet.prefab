@@ -98,8 +98,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   transformExit: {fileID: 0}
-  typePlayer: 1
-  speedBulletPlayer: 5
+  typePlayer: 0
+  speedBulletPlayer: 1
   speedBulletBot: 25
 --- !u!61 &5604209550658036426
 BoxCollider2D:
