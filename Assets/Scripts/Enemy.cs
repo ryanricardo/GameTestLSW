@@ -43,6 +43,7 @@ public class Enemy : MonoBehaviour
     [SerializeField]        private         float                   timeShooting;
     [SerializeField]        private         float                   distancePlayer;
     [HideInInspector]       private         bool                    dropWeapon;
+    [HideInInspector]       private         bool                    touchPlayer;
     
 
     void Start()
@@ -66,6 +67,10 @@ public class Enemy : MonoBehaviour
     {
         distancePlayer = Vector2.Distance(transform.position, playerController.transform.position);
 
+        if(touchPlayer)
+        {
+            rb2.velocity = Vector2.zero;
+        }
         switch(actionsCurrent)
         {
             case ActionsCurrent.Chasing:
@@ -180,5 +185,21 @@ public class Enemy : MonoBehaviour
         float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
         Quaternion rotation = Quaternion.AngleAxis(angle, Vector3.forward);
         transform.rotation = Quaternion.Slerp(transform.rotation, rotation, speedChasingPlayer * Time.deltaTime);
+    }
+
+    void OnCollisionEnter2D(Collision2D other)
+    {
+        if(other.gameObject.CompareTag("Player"))
+        {
+            touchPlayer = true;
+        }
+    }
+
+    void OnCollisionExit2D(Collision2D other)
+    {
+        if(other.gameObject.CompareTag("Player"))
+        {
+            touchPlayer = false;
+        }
     }
 }

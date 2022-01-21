@@ -42,7 +42,7 @@ public class Manager : MonoBehaviour
             do
             {
 
-                if(waveCurrent > 10)
+                if(waveCurrent > 5)
                 {
                     Instantiate(bot[Random.Range(0, 5)], spawnBots[Random.Range(0, 18)].transform.position, Quaternion.identity);
                 }else 
