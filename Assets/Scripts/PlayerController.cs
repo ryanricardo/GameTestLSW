@@ -20,6 +20,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField]        private         AudioSource         sourceEffects;
     [SerializeField]        private         AudioClip           clipShootPistol;
     [SerializeField]        private         Sprite              spriteDead;
+    [HideInInspector]       private         CanvasPlayer        canvasPlayer;
     [HideInInspector]       private         Rigidbody2D         rb2;
     [HideInInspector]       private         Animator            animator;
     [HideInInspector]       public          CategoryItens       categoryItens; 
@@ -45,6 +46,7 @@ public class PlayerController : MonoBehaviour
 
     void Start()
     {
+        canvasPlayer = FindObjectOfType<CanvasPlayer>();
         life = 100;
         animator = GetComponent<Animator>();
         rb2 = GetComponent<Rigidbody2D>();
@@ -118,6 +120,7 @@ public class PlayerController : MonoBehaviour
         {
             animator.SetBool("Death", true);
             animator.SetInteger("CategoryItem", -1);
+            canvasPlayer.DesactiveText();
             rb2.velocity = Vector2.zero;
             death = true;
         }
