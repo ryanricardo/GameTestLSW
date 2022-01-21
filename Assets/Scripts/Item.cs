@@ -46,7 +46,17 @@ public class Item : MonoBehaviour
         
         if(typeItem == TypeItem.Weapon)
         {
-            localAmmunation = Random.Range(10, 20);
+
+            switch(typeWeapon)
+            {
+                case TypeWeapon.Pistol:
+                    localAmmunation = Random.Range(5, 10);
+                break;
+
+                case TypeWeapon.Shotgun:
+                    localAmmunation = Random.Range(4, 8);
+                break;
+            }
         }
     }
 

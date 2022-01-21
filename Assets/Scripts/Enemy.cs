@@ -13,14 +13,23 @@ public class Enemy : MonoBehaviour
         Nothing,
     }
 
+    public enum TypeWeapon
+    {
+        Pistol,
+        Shotgun,
+    }
+
     [Header("Components")]
     [SerializeField]        private         ActionsCurrent          actionsCurrent;
+    [SerializeField]        private         TypeWeapon              typeWeapon;
+    [SerializeField]        private         Transform[]             exitBulletShotgun;
     [SerializeField]        private         GameObject              bullet;
     [SerializeField]        private         Transform               exitBullet;
     [SerializeField]        private         AudioSource             sourceEffects;
     [SerializeField]        private         AudioClip               clipShoot;
     [SerializeField]        private         Sprite                  spriteDead;
     [SerializeField]        private         GameObject              gunPistol;
+    [SerializeField]        private         GameObject              gunShotgun;
     [HideInInspector]       private         Rigidbody2D             rb2;
     [HideInInspector]       private         PlayerController        playerController;
     [HideInInspector]       private         Manager                 mg;
@@ -76,23 +85,45 @@ public class Enemy : MonoBehaviour
             case ActionsCurrent.Shooting:
 
                 LookingPlayer();
+                
+                switch(typeWeapon)
+                {
+                    case TypeWeapon.Pistol:
+                        if(timeShooting > 2)
+                        {
+                            bullet.GetComponent<Bullet>().transformExit = exitBullet;
+                            bullet.GetComponent<Bullet>().typePlayer = Bullet.TypePlayer.Bot;
+                            Instantiate(bullet, exitBullet.transform.position, Quaternion.identity);
+                            sourceEffects.PlayOneShot(clipShoot);
+                            timeShooting = 0;
+                        }else 
+                        {
+                            timeShooting += Time.deltaTime;
+                        }
+                    break;
 
+                    case TypeWeapon.Shotgun:
+                        if(timeShooting > 2)
+                        {
+                            bullet.GetComponent<Bullet>().transformExit = exitBulletShotgun[0];
+                            bullet.GetComponent<Bullet>().transformExit = exitBulletShotgun[1];
+                            bullet.GetComponent<Bullet>().typePlayer = Bullet.TypePlayer.Bot;
+                            Instantiate(bullet, exitBulletShotgun[0].transform.position, Quaternion.identity);
+                            Instantiate(bullet, exitBulletShotgun[1].transform.position, Quaternion.identity);
+                            sourceEffects.PlayOneShot(clipShoot);
+                            timeShooting = 0;
+                        }else 
+                        {
+                            timeShooting += Time.deltaTime;
+                        }
+                    break;
+                }
                 if(distancePlayer > 10)
                 {
                     actionsCurrent = ActionsCurrent.Chasing;
                 }
 
-                if(timeShooting > 2)
-                {
-                    bullet.GetComponent<Bullet>().transformExit = exitBullet;
-                    bullet.GetComponent<Bullet>().typePlayer = Bullet.TypePlayer.Bot;
-                    Instantiate(bullet, exitBullet.transform.position, Quaternion.identity);
-                    sourceEffects.PlayOneShot(clipShoot);
-                    timeShooting = 0;
-                }else 
-                {
-                    timeShooting += Time.deltaTime;
-                }
+
             break;
 
             case ActionsCurrent.Dead:
@@ -102,10 +133,21 @@ public class Enemy : MonoBehaviour
 
                 if(dropWeapon)
                 {
+                    switch(typeWeapon)
+                    {
+                        case TypeWeapon.Pistol:
+                            Instantiate(gunPistol, transform.position, Quaternion.identity);
+                            dropWeapon = false;
+                        break;
+
+                        case TypeWeapon.Shotgun:
+                            Instantiate(gunShotgun, transform.position, Quaternion.identity);
+                            dropWeapon = false;
+                        break;
+                    }
                     Destroy(gameObject, 30);
                     mg.countBots -= 1;
-                    Instantiate(gunPistol, transform.position, Quaternion.identity);
-                    dropWeapon = false;
+
                 }
 
             break;

@@ -122,13 +122,24 @@ public class PlayerController : MonoBehaviour
                 animator.SetInteger("CategoryItem", 2);
                 if(mouse0 && ammmunationCurrent > 0)
                 {
-                    bullet.GetComponent<Bullet>().transformExit = exitBulletShotgun[0];
-                    bullet.GetComponent<Bullet>().transformExit = exitBulletShotgun[1];
-                    bullet.GetComponent<Bullet>().typePlayer = Bullet.TypePlayer.Player;
-                    Instantiate(bullet, exitBulletShotgun[0].transform.position, Quaternion.identity);
-                    Instantiate(bullet, exitBulletShotgun[1].transform.position, Quaternion.identity);
+                    if(ammmunationCurrent >= 2)
+                    {
+                        bullet.GetComponent<Bullet>().transformExit = exitBulletShotgun[0];
+                        bullet.GetComponent<Bullet>().transformExit = exitBulletShotgun[1];
+                        bullet.GetComponent<Bullet>().typePlayer = Bullet.TypePlayer.Player;
+                        Instantiate(bullet, exitBulletShotgun[0].transform.position, Quaternion.identity);
+                        Instantiate(bullet, exitBulletShotgun[1].transform.position, Quaternion.identity);      
+                        ammmunationCurrent -= 2;                  
+                    }else 
+                    {
+                        bullet.GetComponent<Bullet>().transformExit = exitBulletShotgun[0];
+                        bullet.GetComponent<Bullet>().typePlayer = Bullet.TypePlayer.Player;
+                        Instantiate(bullet, exitBulletShotgun[0].transform.position, Quaternion.identity);
+                        ammmunationCurrent -= 1;
+                    }
+
                     sourceEffects.PlayOneShot(clipShootShotgun);
-                    ammmunationCurrent -= 1;
+                    
                     gunEquipped.GetComponent<Item>().localAmmunation -= 1;
                     if(ammmunationCurrent == 0)
                     {
