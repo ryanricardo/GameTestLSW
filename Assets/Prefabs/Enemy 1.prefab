@@ -105,7 +105,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 1
+  m_SortingOrder: 2
   m_Sprite: {fileID: 21300000, guid: f195c7ffbe6973c4c9a58208a22faaef, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -177,12 +177,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   actionsCurrent: 0
+  typeWeapon: 0
+  exitBulletShotgun: []
   bullet: {fileID: 1141074946272309478, guid: 45787bea1be062b449a1880fd1c6a6fa, type: 3}
   exitBullet: {fileID: 2984386131265500842}
   sourceEffects: {fileID: 2984386131664600731}
   clipShoot: {fileID: 8300000, guid: 6f2b1b1dc4b04eb47949b3e7dc2b0faf, type: 3}
   spriteDead: {fileID: 21300000, guid: a9415179fe2bdcf4bbfbdac3ea101e15, type: 3}
   gunPistol: {fileID: 5399002094584738027, guid: eab9e94d716015b42a3953ee056182c6, type: 3}
+  gunShotgun: {fileID: 0}
   life: 0
   speedChasingPlayer: 4
   timeShooting: 0
