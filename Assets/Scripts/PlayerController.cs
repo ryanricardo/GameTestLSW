@@ -93,6 +93,7 @@ public class PlayerController : MonoBehaviour
         {
             case CategoryItens.Rock:
                 animator.SetInteger("CategoryItem", 0);
+                ammmunationCurrent = 0;
             break;
 
             case CategoryItens.Pistol:

@@ -29,7 +29,7 @@ public class Manager : MonoBehaviour
         {
             do
             {
-                Instantiate(bot, spawnBots[Random.Range(0, 3)].transform.position, Quaternion.identity);
+                Instantiate(bot, spawnBots[Random.Range(0, 18)].transform.position, Quaternion.identity);
                 countBots += 1;
                 canvasController.RefreshWave();
             }while(countBots < waveCurrent);
