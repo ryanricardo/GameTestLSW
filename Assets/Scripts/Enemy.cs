@@ -88,7 +88,6 @@ public class Enemy : MonoBehaviour
                     bullet.GetComponent<Bullet>().typePlayer = Bullet.TypePlayer.Bot;
                     Instantiate(bullet, exitBullet.transform.position, Quaternion.identity);
                     sourceEffects.PlayOneShot(clipShoot);
-                    Debug.Log("Shoot");
                     timeShooting = 0;
                 }else 
                 {
@@ -99,6 +98,8 @@ public class Enemy : MonoBehaviour
             case ActionsCurrent.Dead:
                 GetComponent<SpriteRenderer>().sprite = spriteDead;
                 GetComponent<BoxCollider2D>().isTrigger = true;
+                GetComponent<BoxCollider2D>().enabled = false;
+
                 if(dropWeapon)
                 {
                     Destroy(gameObject, 30);

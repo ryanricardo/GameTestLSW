@@ -28,7 +28,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1141074946272309478}
   m_LocalRotation: {x: 0, y: 0, z: -0.7071068, w: 0.7071068}
-  m_LocalPosition: {x: -0.0000000031175, y: -0.0058508, z: 0}
+  m_LocalPosition: {x: -0.000000028243, y: 0.0084311, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -99,6 +99,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   transformExit: {fileID: 0}
   typePlayer: 1
+  speedBulletPlayer: 5
+  speedBulletBot: 25
 --- !u!61 &5604209550658036426
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -145,4 +147,4 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 1
-  m_Constraints: 0
+  m_Constraints: 4

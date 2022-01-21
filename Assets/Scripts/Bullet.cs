@@ -16,6 +16,10 @@ public class Bullet : MonoBehaviour
     [HideInInspector]       private         PlayerController        playerController;
     [HideInInspector]       private         Rigidbody2D             rb2;
 
+    [Header("Atributtes Bullets")]
+    [SerializeField]        private         float                   speedBulletPlayer;
+    [SerializeField]        private         float                   speedBulletBot;
+
 
 
     void Start()
@@ -29,11 +33,11 @@ public class Bullet : MonoBehaviour
             switch(typePlayer)
             {
                 case TypePlayer.Player:
-                    rb2.AddForce(playerController.direction * 10, ForceMode2D.Impulse);
+                    rb2.AddForce(playerController.direction * speedBulletPlayer, ForceMode2D.Impulse);
                 break;
 
                 case TypePlayer.Bot:
-                    rb2.AddForce(transformExit.transform.right * 20, ForceMode2D.Impulse);
+                    rb2.AddForce(transformExit.transform.right * speedBulletBot, ForceMode2D.Impulse);
                 break;
             }
         }
@@ -56,10 +60,11 @@ public class Bullet : MonoBehaviour
             Destroy(gameObject, 0);
         }
 
-        if(other.gameObject.CompareTag("Enemy") /*&&
-        typePlayer == TypePlayer.Player*/)
+        if(other.gameObject.CompareTag("Enemy") &&
+        typePlayer == TypePlayer.Player)
         {
             other.gameObject.GetComponent<Enemy>().life -= 50;
+            Debug.Log(other.gameObject.GetComponent<Enemy>().life);
             Debug.Log("Hit enemy");
             Destroy(gameObject, 0);
         }
