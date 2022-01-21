@@ -8,12 +8,19 @@ public class Manager : MonoBehaviour
     [Header("Components")]
     [SerializeField]        private         Transform[]         spawnBots;
     [SerializeField]        private         GameObject[]        bot;
+    [SerializeField]        private         GameObject[]        scenarios;
     [HideInInspector]       private         CanvasController    canvasController;
     [HideInInspector]       private         PlayerController    playerController;
 
     [Header("Atributtes scene")]
     [SerializeField]        public          int                 waveCurrent;
     [SerializeField]        public          int                 countBots;
+
+    void Awake()
+    {
+        scenarios[Random.Range(0, 2)].SetActive(true);
+    }
+
     void Start()
     {
         playerController = FindObjectOfType<PlayerController>();
