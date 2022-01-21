@@ -27,12 +27,13 @@ public class Item : MonoBehaviour
 
     [Header("Atributtes Object")]
     [SerializeField]        private         float               forcePush;
-    [SerializeField]        private         float               localAmmunation;
+    [SerializeField]        public          float               localAmmunation;
     [HideInInspector]       private         bool                lauchPush;
     
 
     void Start()
     {
+        
         rb2 = GetComponent<Rigidbody2D>();
         playerController = FindObjectOfType<PlayerController>();
         
@@ -88,7 +89,8 @@ public class Item : MonoBehaviour
 
                     case ModeItem.Equipped:
                         playerController.ammmunationCurrent = localAmmunation;
-                        Destroy(gameObject, 0);
+                        gameObject.SetActive(false);
+                        playerController.gunEquipped = gameObject;
                         playerController.categoryItens = PlayerController.CategoryItens.Pistol;
                     break;
                 }

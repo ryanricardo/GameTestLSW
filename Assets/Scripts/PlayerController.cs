@@ -20,6 +20,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField]        private         AudioSource         sourceEffects;
     [SerializeField]        private         AudioClip           clipShootPistol;
     [SerializeField]        private         Sprite              spriteDead;
+    [SerializeField]        public          GameObject          gunEquipped;
     [HideInInspector]       private         CanvasPlayer        canvasPlayer;
     [HideInInspector]       private         Rigidbody2D         rb2;
     [HideInInspector]       private         Animator            animator;
@@ -105,8 +106,10 @@ public class PlayerController : MonoBehaviour
                     Instantiate(bullet, exitBulletPistol.transform.position, Quaternion.identity);
                     sourceEffects.PlayOneShot(clipShootPistol);
                     ammmunationCurrent -= 1;
+                    gunEquipped.GetComponent<Item>().localAmmunation -= 1;
                     if(ammmunationCurrent == 0)
                     {
+                        Destroy(gunEquipped, 0);
                         handRightOcupped = false;
                         categoryItens = CategoryItens.Rock;
                     }
@@ -163,7 +166,9 @@ public class PlayerController : MonoBehaviour
                break;
 
                case CategoryItens.Pistol:
-                    Instantiate(weaponPickup, transform.position, Quaternion.identity);
+                    gunEquipped.GetComponent<Item>().modeItem = Item.ModeItem.Dropped;
+                    gunEquipped.SetActive(true);
+                    gunEquipped.transform.position = new Vector2(transform.position.x, transform.position.y);
                     categoryItens = CategoryItens.Rock;
                     handRightOcupped = false;
                break;
