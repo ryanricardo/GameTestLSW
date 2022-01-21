@@ -20,7 +20,10 @@ public class Enemy : MonoBehaviour
     [SerializeField]        private         AudioSource             sourceEffects;
     [SerializeField]        private         AudioClip               clipShoot;
     [SerializeField]        private         Sprite                  spriteDead;
+    [SerializeField]        private         GameObject              gunPistol;
+    [HideInInspector]       private         Rigidbody2D             rb2;
     [HideInInspector]       private         PlayerController        playerController;
+    [HideInInspector]       private         Manager                 mg;
 
     
     [Header("Atributtes Health")]
@@ -30,13 +33,16 @@ public class Enemy : MonoBehaviour
     [SerializeField]        private         float                   speedChasingPlayer;
     [SerializeField]        private         float                   timeShooting;
     [SerializeField]        private         float                   distancePlayer;
+    [HideInInspector]       private         bool                    dropWeapon;
     
 
     void Start()
     {
+        mg = FindObjectOfType<Manager>();
+        dropWeapon = true;
         life = 100;
         playerController = FindObjectOfType<PlayerController>();
-
+        rb2 = GetComponent<Rigidbody2D>();
         actionsCurrent = ActionsCurrent.Chasing;
     }
 
@@ -93,6 +99,14 @@ public class Enemy : MonoBehaviour
             case ActionsCurrent.Dead:
                 GetComponent<SpriteRenderer>().sprite = spriteDead;
                 GetComponent<BoxCollider2D>().isTrigger = true;
+                if(dropWeapon)
+                {
+                    Destroy(gameObject, 30);
+                    mg.countBots -= 1;
+                    Instantiate(gunPistol, transform.position, Quaternion.identity);
+                    dropWeapon = false;
+                }
+
             break;
 
             case ActionsCurrent.Nothing:

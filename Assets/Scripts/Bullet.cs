@@ -56,8 +56,8 @@ public class Bullet : MonoBehaviour
             Destroy(gameObject, 0);
         }
 
-        if(other.gameObject.CompareTag("Enemy") &&
-        typePlayer != TypePlayer.Bot)
+        if(other.gameObject.CompareTag("Enemy") /*&&
+        typePlayer == TypePlayer.Player*/)
         {
             other.gameObject.GetComponent<Enemy>().life -= 50;
             Debug.Log("Hit enemy");

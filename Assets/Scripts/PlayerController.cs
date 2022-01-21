@@ -117,6 +117,8 @@ public class PlayerController : MonoBehaviour
         if(life <= 0 && !death)
         {
             animator.SetBool("Death", true);
+            animator.SetInteger("CategoryItem", -1);
+            rb2.velocity = Vector2.zero;
             death = true;
         }
     }
@@ -132,7 +134,8 @@ public class PlayerController : MonoBehaviour
 
        if(distanceItem <= 2 && 
        keyDownE &&
-       !handRightOcupped)
+       !handRightOcupped &&
+       itemProximity != null)
        {
            animator.SetBool("PickupItem", true);
            itemProximity.GetComponent<Item>().EquipItem();

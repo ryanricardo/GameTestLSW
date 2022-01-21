@@ -27,6 +27,7 @@ public class Item : MonoBehaviour
 
     [Header("Atributtes Object")]
     [SerializeField]        private         float               forcePush;
+    [SerializeField]        private         float               localAmmunation;
     [HideInInspector]       private         bool                lauchPush;
     
 
@@ -37,7 +38,7 @@ public class Item : MonoBehaviour
         
         if(typeItem == TypeItem.Weapon)
         {
-            playerController.ammmunationCurrent = Random.Range(0, 5);
+            localAmmunation = Random.Range(10, 20);
         }
     }
 
@@ -86,7 +87,7 @@ public class Item : MonoBehaviour
                     break;
 
                     case ModeItem.Equipped:
-                        playerController.ammmunationCurrent = Random.Range(1, 10);
+                        playerController.ammmunationCurrent = localAmmunation;
                         Destroy(gameObject, 0);
                         playerController.categoryItens = PlayerController.CategoryItens.Pistol;
                     break;
