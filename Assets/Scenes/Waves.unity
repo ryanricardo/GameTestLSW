@@ -12362,6 +12362,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Item
       objectReference: {fileID: 0}
+    - target: {fileID: 4689941849160390955, guid: 5d7470d9506864148afbe86ce0f81b29, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4689941849160390959, guid: 5d7470d9506864148afbe86ce0f81b29, type: 3}
       propertyPath: m_Size.x
       value: 0.24420467
@@ -12393,7 +12397,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5399002094584738024, guid: eab9e94d716015b42a3953ee056182c6, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -4.78
+      value: 0.2
       objectReference: {fileID: 0}
     - target: {fileID: 5399002094584738024, guid: eab9e94d716015b42a3953ee056182c6, type: 3}
       propertyPath: m_LocalPosition.y
